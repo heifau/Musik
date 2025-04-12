@@ -1,0 +1,109 @@
+﻿<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Canvas Farbsteuerung</title>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background-color: #f0f0f0;
+        }
+
+        canvas {
+            display: block;
+            position: absolute;
+            top: 0px;
+            left: 0px;
+        }
+
+        .controls {
+            position: sticky;
+            margin-top: 200px;
+            display: flex;
+            gap: 20px;
+        }
+        }
+
+        .slider-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        label {
+            margin-bottom: 5px;
+        }
+    </style>
+</head>
+<body>
+
+    <canvas id="farbCanvas"></canvas>
+
+    <div class="controls">
+        <div class="slider-container">
+            <label for="rotSlider">Rot:</label>
+            <input type="range" id="rotSlider" min="0" max="255" value="255">
+            <span id="rotWert">255</span>
+        </div>
+        <div class="slider-container">
+            <label for="gruenSlider">Grün:</label>
+            <input type="range" id="gruenSlider" min="0" max="255" value="0">
+            <span id="gruenWert">0</span>
+        </div>
+        <div class="slider-container">
+            <label for="blauSlider">Blau:</label>
+            <input type="range" id="blauSlider" min="0" max="255" value="0">
+            <span id="blauWert">0</span>
+        </div>
+    </div>
+
+    <script>
+    const canvas = document.getElementById('farbCanvas');
+        const ctx = canvas.getContext('2d');
+        const rotSlider = document.getElementById('rotSlider');
+        const gruenSlider = document.getElementById('gruenSlider');
+        const blauSlider = document.getElementById('blauSlider');
+        const rotWertAnzeige = document.getElementById('rotWert');
+        const gruenWertAnzeige = document.getElementById('gruenWert');
+        const blauWertAnzeige = document.getElementById('blauWert');
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            drawBackground();
+        }
+
+        function drawBackground() {
+            const rot = rotSlider.value;
+            const gruen = gruenSlider.value;
+            const blau = blauSlider.value;
+            const farbe = `rgb(${rot}, ${gruen}, ${blau})`;
+            ctx.fillStyle = farbe;
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+        }
+
+        function updateFarbe() {
+            const rot = rotSlider.value;
+            const gruen = gruenSlider.value;
+            const blau = blauSlider.value;
+            rotWertAnzeige.textContent = rot;
+            gruenWertAnzeige.textContent = gruen;
+            blauWertAnzeige.textContent = blau;
+            drawBackground();
+        }
+
+        window.addEventListener('resize', resizeCanvas);
+        rotSlider.addEventListener('input', updateFarbe);
+        gruenSlider.addEventListener('input', updateFarbe);
+        blauSlider.addEventListener('input', updateFarbe);
+
+        resizeCanvas(); // Initiales Anpassen der Canvas-Größe</script>
+
+</body>
+</html>
